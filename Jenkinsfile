@@ -2,14 +2,13 @@ node {
     echo "Building ------> build${env.BUILD_NUMBER}"
     def giturl = "https://github.com/dunc101/openshiftspringbootdemo.git"
     def pomdirectory = "openshiftspringbootdemo"
-    def dockerimagename = "openshiftspringbootdemo/openshiftspringbootdemo"
     def app = "openshiftspringbootdemo"
     def readinessprobe = "http://localhost:8080/health"
     def livenessprobe = "http://localhost:8080/health"
     def replicas = "3"
     
     stage 'Checkout and Build'
-    build job: 'demo-checkoutandbuild', parameters: [[$class: 'StringParameterValue', name: 'GITURL', value: "$giturl"], [$class: 'StringParameterValue', name: 'POMDIRECTORY', value: "$pomdirectory"], [$class: 'StringParameterValue', name: 'DOCKERIMAGENAME', value: "$dockerimagename"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"]]
+    build job: 'demo-checkoutandbuild', parameters: [[$class: 'StringParameterValue', name: 'GITURL', value: "$giturl"], [$class: 'StringParameterValue', name: 'POMDIRECTORY', value: "$pomdirectory"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"]]
     
     stage 'Push to Dev'
     build job: 'demo-dev', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"]]
