@@ -12,15 +12,9 @@ node {
     
     stage 'Push to Dev'
     build job: 'demo-dev', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"]]
-
-    //stage 'Integration Tests DEV'
-    //echo "Run your dev integration tests here.  Skipping because this a demo."
     
     stage 'Deploy to Test'
     build job: 'demo-test', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"]]
-    
-    //stage 'Integration Tests TEST'
-    //echo "Run your test integration tests here.  Skipping because this a demo."
     
     stage 'Request Authorization to Promote to Stage'
 	def changelogs=readFile("/tmp/${app}/revisionlogs")
@@ -31,7 +25,4 @@ node {
     
     stage 'Deploying to stage'
     build job: 'demo-stage', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"], [$class: 'StringParameterValue', name: 'REPLICAS', value: "$replicas"]]
-    
-    //stage 'Integration Tests STAGE'
-    //echo "Run your stage integration tests here. Skipping because this is a demo... Roll back if this fails!... oc rollback $APP"
 }
