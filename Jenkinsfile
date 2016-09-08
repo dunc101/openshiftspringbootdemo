@@ -13,17 +13,21 @@ node {
     stage 'Push to Dev'
     build job: 'demo-dev', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"]]
 
-    stage 'Integration Tests DEV'
-    echo "Run your dev integration tests here.  Skipping because this a demo."
+    //stage 'Integration Tests DEV'
+    //echo "Run your dev integration tests here.  Skipping because this a demo."
     
     stage 'Deploy to Test'
     build job: 'demo-test', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"]]
     
-    stage 'Integration Tests TEST'
-    echo "Run your test integration tests here.  Skipping because this a demo."
+    //stage 'Integration Tests TEST'
+    //echo "Run your test integration tests here.  Skipping because this a demo."
     
     stage 'Request Authorization to Promote to Stage'
-    input message: 'Please approve the promotion to the Stage environment.  All tests and builds have passed.', ok: 'Approve'
+	def changelogs=readFile("/tmp/${app}/revisionlogs")
+    input message: "Please approve the promotion to the Stage environment.  All tests and builds have passed.  The change logs are as follows: \n" + 
+                    "------------------------------------------------------------------------------------------\n" +
+                    "${changelogs}" +
+                    "------------------------------------------------------------------------------------------", ok: 'Approve'
     
     stage 'Deploying to stage'
     build job: 'demo-stage', parameters: [[$class: 'StringParameterValue', name: 'TAG', value: "build${env.BUILD_NUMBER}"], [$class: 'StringParameterValue', name: 'APP', value: "$app"], [$class: 'StringParameterValue', name: 'READINESSPROBE', value: "$readinessprobe"], [$class: 'StringParameterValue', name: 'LIVENESSPROBE', value: "$livenessprobe"], [$class: 'StringParameterValue', name: 'REPLICAS', value: "$replicas"]]
