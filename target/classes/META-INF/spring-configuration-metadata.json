@@ -1,0 +1,13 @@
+{
+  "groups": [{
+    "name": "myconfig",
+    "type": "com.example.config.Config",
+    "sourceType": "com.example.config.Config"
+  }],
+  "properties": [{
+    "name": "myconfig.name",
+    "type": "java.lang.String",
+    "sourceType": "com.example.config.Config"
+  }],
+  "hints": []
+}
