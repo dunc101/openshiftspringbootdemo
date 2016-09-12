@@ -18,7 +18,7 @@ node {
     
     stage 'Request Authorization to Promote to Stage'
     def changelogs=readFile("/tmp/${app}/revisionlogs")
-    mail to: 'dustin.duncan@ipacc.com', subject: "Please approve #${env.BUILD_NUMBER}", body: "All tests and builds have passed.  The change logs are as follows: \n" + 
+    mail to: 'dustin.duncan@ipacc.com', subject: "Please approve #${env.BUILD_NUMBER}", body: "All tests and builds have passed.\n  See ${env.BUILD_URL}input/.\n  The change logs are as follows: \n" + 
                     "-------------------------------------------------------------------\n" +
                     "${changelogs}" +
                     "-------------------------------------------------------------------"
