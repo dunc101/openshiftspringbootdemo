@@ -21,14 +21,13 @@ node {
     mail to: 'dustin.duncan@ipacc.com', subject: "Please approve #${env.BUILD_NUMBER}", body: "All tests and builds have passed.  The change logs are as follows: \n" + 
                     "-------------------------------------------------------------------\n" +
                     "${changelogs}" +
-                    "-------------------------------------------------------------------""
+                    "-------------------------------------------------------------------"
 
     timeout(time:7, unit:'DAYS') {
       input message: "Please approve the promotion to the Stage environment.  All tests and builds have passed.  The change logs are as follows: \n" + 
                     "-------------------------------------------------------------------\n" +
                     "${changelogs}" +
                     "-------------------------------------------------------------------", ok: 'Approve'
-       ,submitter: 'duncanda'
     }
 
     stage 'Deploying to stage'
