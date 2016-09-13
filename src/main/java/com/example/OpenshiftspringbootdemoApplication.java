@@ -20,6 +20,6 @@ public class OpenshiftspringbootdemoApplication {
 	
 	@RequestMapping("/ping")
 	public String ping() {
-		return config.getName();
+		return "pong";
 	}
 }
